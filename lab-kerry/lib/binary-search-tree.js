@@ -22,7 +22,7 @@ class BinarySearchTree {
     let node = new TreeNode(key, value);
 
     if (typeof key !== 'string')
-      throw new TypeError('Value must be a key');
+      throw new TypeError('Value must be a string');
 
     if (key === null)
       throw new TypeError('Must pass a valid object');
@@ -61,13 +61,13 @@ class BinarySearchTree {
     if (key === '')
       throw new TypeError('Must input value');
 
-    if (typeof key !== 'string')
-      throw new TypeError('Value must be a number');
+    // if (typeof key !== 'string')
+    //   throw new TypeError('Value must be a string');
 
     while (this.root) {
 
       if (key === this.root.key) {
-        return true;
+        return this;
       }
       if (key < this.root.key) {
         this.root = this.root.left;
@@ -75,7 +75,7 @@ class BinarySearchTree {
         this.root = this.root.right;
       }
     }
-    return false;
+    return null;
   }
 
   //Remove method that calls helper function given a value and establishes a root at that value for which to execute its functionality.
@@ -145,32 +145,5 @@ class BinarySearchTree {
   }
 }
 
-// let binaryst = new BinarySearchTree();
-// binaryst.insert('foo', 5);
-// binaryst.insert('bar', 2);
-// binaryst.insert('baz', 1);
-// binaryst.insert('baphomet', 22);
-// binaryst.insert('bolt', 3);
-// binaryst.insert('bath', 7);
-// binaryst.insert('barth', 8);
-// binaryst.insert('finch', 11);
-// binaryst.insert('grinch', 10);
-// binaryst.insert('mensch', 9);
-// binaryst.insert('narrator', 16);
-// binaryst.insert('xylophone', 12);
-// binaryst.insert('car', 13);
-// binaryst.insert('crash', 17);
-// binaryst.insert('harold', 4);
-
-// // console.log(JSON.stringify(binaryst, null, 2));
-
-// // console.log(binaryst.find('harold'));
-
-// // console.log(binaryst.find('harvard'));
-
-// binaryst.remove('mensch');
-
-
-// console.log(JSON.stringify(binaryst, null, 2));
-
+module.exports = TreeNode;
 module.exports = BinarySearchTree;
