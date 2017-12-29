@@ -1,10 +1,10 @@
-## 16 - Binary Search Trees and k-Ary Trees
+## 16 - Binary Search Trees
 
 ### How to Use
 
 To start this app, clone this repo from 
 
-  `https://github.com/kerrynordstrom/16-trees-and-binary-search-trees`
+  `https://github.com/kerrynordstrom/20`
 
 install all necessary packages with 
 
@@ -32,30 +32,24 @@ This program is built with a simple binary search tree which organizes nodes in 
                                             16
                                             / \
                                            13 15 
-### k-Ary Tree Structure
+### Hash Table
 
-                                11
-                              / | \
-                             12 13 14
-                              / | \
-                             15 16 17      
-                               / \  \
-                              18 18 18
+The hash table is set up with an array with a capacity of 1000 buckets (addresses).  It handles any collisions as a result of its hash assignments by setting any conflicts as either the left or right child of the available parent most closely comparable to itself.
+
 
 ### Modules
 
 This program exports two modules:
 
 - Binary search tree class constructor and its methods: find, insert, and remove.
-- k-Ary tree constructor and its prototype methods: find, concatToString, and pushToArray.
+- Hash Table and its methods: get, set, and delete.
 
 ### Binary Search Tree Methods
 
 #### Find Node
 
-This method finds an individual nodde which in the case of the above binary search tree will produce a result by halving the search each time.  
+This method finds an individual node's key value pair which in the case of the above binary search tree will produce a result by halving the search each time.  
 
-Example: If fourteen is the value to be found, it will follow `5, 2` and then return `3` as 3 is less than 5 and greater than 2.  
 
 #### Big O
 
@@ -64,10 +58,7 @@ Space: O(logn)
 
 #### Insert
 
-This method will insert a single node (as a leaf) and in the case of the above binary search tree will produce a result by following the number of connections necessary to insert itself where it is greater or less than an existing node value.  It will not store duplicates.
-
-Example: If 100 is the value to insert, the result will be that it follows the tree all the way down the right side, makes a new node, and attaches itself to the right of 15 `5, 7, 8, 11, 12, 16, 15, 100`
-
+This method will insert a single node's key value pair (as a leaf) and in the case of the above binary search tree will produce a result by following the number of connections necessary to insert itself where it is greater or less than an existing node value.  It will not store duplicates.
 
 #### Big O
 
@@ -77,10 +68,7 @@ Space: O(nlogn)
 
 #### Remove
 
-This method will remove a node and replace its current value and connections with the minimum value found on the right side of the tree.  It will search to the bottom of the tree and find this minimum value, store it in a temporary variable, then reassign the removed node's value and connections to maintain the original structure where possible.
-
-Example: If 11 is to be deleted, it will make a copy of the minimum value on the right side of the tree shown above (12) and will replace the 11 node with that of 12, including the former left of 11 (10) and the right of 12 (16). 
-       
+This method will remove a node's key value pair and replace its current value and connections with the minimum value found on the right side of the tree.  It will search to the bottom of the tree and find this minimum value, store it in a temporary variable, then reassign the removed node's value and connections to maintain the original structure where possible.
 
 #### Big O
 
@@ -88,45 +76,37 @@ Time: O(H) where H is the number of connections it *may* need based on the heigh
 Space: O(nlogn)
 
 
-### k-Ary Methods
+### Hash Table Methods
 
-#### Find Node
+#### Set Node
 
-This method uses an in order traversing method which in the case of the above binary tree will produe a result of one node value found via the pattern of left to root to right.  
+This method will set a key value pair to any available bucket, and in the case of a collision with an occupant of that bucket, will be assigned as either a left or right child after a comparison with that bucket's key.
 
-Example: If fourteen is the value to be found, it will follow `12, 11, 14` and then return `14`
 
 #### Big O
 
-Time: O(n)
-Space: O(nlogn)
+Time: O(1)
+Space: O(n)
 
-#### concatToString
+#### Get Node
 
-This method uses a pre order order traversing method which in the case of the above binary tree will produe as result, a string concatenating all nodes succeeding the root value passed as argument with a line break in between each value.  
+This method will get a key value pair from any available bucket based on its exact address provided by a hashed key.
 
-Example: If eleven is the argument root node, the result will be `'11\n12\n13\n14\n15\n11'`
-
-        If fifteen is the argument root node, the result will be `'15\n11'`
 
 #### Big O
 
-Time: O(n)
-Space: O(nlogn)
+Time: O(1)
+Space: O(n)
 
 
-#### pushToArray
+#### Delete Node
 
-This method uses a post order order traversing method which in the case of the above binary tree will produe as result, an array which indexes all nodes succeeding the root value passed as argument. 
-
-Example: If eleven is the argument root node, the result will be `[12, 14, 11, 15, 13, 11]`
-
-        If duplicateEleven is the argument root node, the result will be `[11]`
+This method will delete a key value pair from any bucket provided the hashed key is found within the array.
 
 #### Big O
 
-Time: O(n)
-Space: O(nlogn)
+Time: O(1)
+Space: O(n)
 
 ### Binary Search Tree Tests
 
@@ -149,23 +129,24 @@ Space: O(nlogn)
 -Remove should be undefined if empty string passed to method.
 -Remove should locate and remove node\'s value, even if it has two children and will preserve nodes that are within sub-trees of this node.
 
-### k-Ary Tests
+### Hash Table Tests
 
-#### Find
--Find method should traverse tree and return the first iteration of the node even if there is another iteration elsewhere in the tree
--Find method should traverse tree and return null if value is not present
--Find method should traverse tree and return null if no value provided
+#### Set
+-Set should throw error if key or value left empty.
+-Set should add nodes with key and value to hash table.
+-Set should update value given an existing key.
+-Set should add node as child of parent of bucket if collision should occur.
 
-#### To String
--String method should traverse tree and create string composed of all values with a newline break in between each value.
--String method should traverse tree beginning at intermediate root node, then create string composed of all values with a newline break in between each value.
--String method should provide empty string as argument even if nothing is passed to function initially.
+#### Get
+-Find should locate and return individual node\'s value.
+-Find should throw type error if argument is null.
+-Find should throw type error if argument left empty.
+-Find should throw type error if argument not string.
 
 
-#### To Array
--Array method should traverse tree and push node values to array
--Array method should be able to take in populated array, then traverse tree and push remaining values it finds to the end of this argument array
--Array method should return an array with a single value if no children are present
-
+#### Delete
+-Delete should locate and remove individual node from hash table.
+-Delete should be undefined if no value passed to method.
+-Remove should be undefined if empty string passed to method.
 
 

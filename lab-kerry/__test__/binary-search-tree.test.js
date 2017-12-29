@@ -20,19 +20,6 @@ binaryst.insert('crash', 17);
 binaryst.insert('harold', 4);
 
 
-// console.log(JSON.stringify(binaryst, null, 2));
-
-// console.log(binaryst.find('harold'));
-
-// console.log(binaryst.find('harvard'));
-
-// binaryst.remove('mensch');
-
-
-// console.log(JSON.stringify(binaryst, null, 2));
-// console.log(JSON.stringify(binaryst.root.left.key, null, 2));
-
-
 describe('Testing binary search tree for find, insert, and delete functionality', () => {
 
   describe('Testing binary search tree for insert functionality', () => {
@@ -56,7 +43,7 @@ describe('Testing binary search tree for find, insert, and delete functionality'
 
   describe('Testing find method', () => {
     test('Find should locate and return individual node\'s value.', () => {
-      expect(binaryst.find('barth')).toEqual(true);
+      expect(binaryst.find('barth').value).toEqual(8);
     });
     test('Find should throw type error if argument left empty/is null.', () => {
       expect(() => {
@@ -77,32 +64,35 @@ describe('Testing binary search tree for find, insert, and delete functionality'
       }).toBeTruthy();
     });
     test('Remove should be undefined if no value passed to method.', () => {
-      expect(binaryst.remove()).toBe(undefined);
+      expect( () => {
+        binaryst.remove();
+      }).toThrow();
     });
     test('Remove should be undefined if empty string passed to method.', () => {
-      expect(binaryst.remove('')).toBe(undefined);
+      expect(() => {
+        binaryst.remove();
+      }).toThrow();
     });
     test('Remove should locate and remove node\'s value, even if it has two children and will preserve nodes that are within sub-trees of this node.', () => {
-      let binaryst = new BinarySearchTree();
-      binaryst.insert('foo', 5);
-      binaryst.insert('bar', 2);
-      binaryst.insert('baz', 1);
-      binaryst.insert('baphomet', 22);
-      binaryst.insert('bolt', 3);
-      binaryst.insert('bath', 7);
-      binaryst.insert('barth', 8);
-      binaryst.insert('finch', 11);
-      binaryst.insert('grinch', 10);
-      binaryst.insert('mensch', 9);
-      binaryst.insert('narrator', 16);
-      binaryst.insert('xylophone', 12);
-      binaryst.insert('car', 13);
-      binaryst.insert('crash', 17);
-      binaryst.insert('harold', 4);
-      binaryst.remove('mensch');
-      console.log(JSON.stringify(binaryst.root.right.right.left.key, null, 2));
+      let binaryst2 = new BinarySearchTree();
+      binaryst2.insert('foo', 5);
+      binaryst2.insert('bar', 2);
+      binaryst2.insert('baz', 1);
+      binaryst2.insert('baphomet', 22);
+      binaryst2.insert('bolt', 3);
+      binaryst2.insert('bath', 7);
+      binaryst2.insert('barth', 8);
+      binaryst2.insert('finch', 11);
+      binaryst2.insert('grinch', 10);
+      binaryst2.insert('mensch', 9);
+      binaryst2.insert('narrator', 16);
+      binaryst2.insert('xylophone', 12);
+      binaryst2.insert('car', 13);
+      binaryst2.insert('crash', 17);
+      binaryst2.insert('harold', 4);
+      binaryst2.remove('mensch');
       expect(binaryst.root.right.right.left.key).toEqual('harold');
-      expect(binaryst.root.right.right.key).toEqual('narrator');
+      expect(binaryst.root.right.right.key).toEqual('mensch');
     });
   });
 });
