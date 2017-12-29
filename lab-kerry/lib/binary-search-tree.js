@@ -1,7 +1,5 @@
 'use strict';
 
-const util = require('util');
-
 class TreeNode {
   constructor(key, value) {
     this.key = key;
@@ -55,32 +53,36 @@ class BinarySearchTree {
       }
     }
   }
-
+	
   find(key) {
+		return this._find(this.root, key);
+  }
+
+  _find(node, key) {
 
     if (key === '')
       throw new TypeError('Must input value');
 
-    // if (typeof key !== 'string')
-    //   throw new TypeError('Value must be a string');
+    if (typeof key !== 'string')
+      throw new TypeError('Value must be a string');
 
-    while (this.root) {
-
-      if (key === this.root.key) {
-        return this;
-      }
-      if (key < this.root.key) {
-        this.root = this.root.left;
-      } else {
-        this.root = this.root.right;
-      }
+    if(!node) {
+      return null;
     }
-    return null;
+    if (key === node.key) {
+      return node;
+    }
+    if (key < node.key) {
+      return this._find(node.left, key);
+    } else {
+      return this._find(node.right, key);
+    }
   }
+
 
   //Remove method that calls helper function given a value and establishes a root at that value for which to execute its functionality.
   remove(key) {
-    this.root = this._removeNode(this.root, key);
+    return this._removeNode(this.root, key);
   }
 
   //----------------------------

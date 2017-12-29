@@ -2,16 +2,15 @@
 
 
 const BinarySearchTree = require('./binary-search-tree');
-// const TreeNode = require('./binary-search-tree');
 
 class HashTable {
-  constructor(capacity = 1) {
+  constructor(capacity = 100) { 
     this._capacity = capacity;
     this._buckets = new Array(capacity);
   }
   // this function will be very prone to collisions
   // // don't use in a production envionment
-  _generateHash(key) {
+  _makeHash(key) {
     if (typeof key !== 'string')
       throw new TypeError('__ERROR__ key should be a string');
 
@@ -24,56 +23,56 @@ class HashTable {
     return rawHash % this._capacity;
   }
 
-  set(key, value) {
-    let hash = this._generateHash(key);
-    let bst = new BinarySearchTree();
+  set(key, htValue) {
+    let hash = this._makeHash(key);
+  
 		
     //here, the bucket is empty
     if (!this._buckets[hash]) {
-      this._buckets[hash] = bst;
-			bst.insert(key, value);
-			console.log(this);
+      this._buckets[hash] = new BinarySearchTree();
+      this._buckets[hash].insert(key, htValue);
       return this;
     }
+    console.log(hash);
     //this bucket is not empty
-    let rootNode = this._buckets[hash];
-    console.log(rootNode);
-    let node = rootNode.find(key);
+    let node = this._buckets[hash].find(key);
 
     if (node) {
-      node.value = value; //updating this value
+      node.value = htValue; //updating this value
       return this;
     }
 
     //if we are not updating a key, we created a new element in the linked list
-    rootNode.insert(key, value);
+    this._buckets[hash].insert(key, htValue);
+
     return this;
   }
 
 
-  get(key) {
-    let hash = this._generateHash(key);
 
-    if (!this._bucks[hash]) {
-      return undefined;
+  get(key) {
+    let hash = this._makeHash(key);
+
+    if (!this._buckets[hash]) {
+      return null;
     }
 
-    let node = this._buckets[hash].find(node => node.key === key);
+    let node = this._buckets[hash].find(key);
 
     if (node)
-      return node.htValue;
+      return node.value;
     else
-      return undefined;
+      return null;
 
   }
 	
   delete(key) {
-    let hash = this._generateHash(key);
+    let hash = this._makeHash(key);
 
     if(!this._buckets[hash])
       return false;
 		
-    let node = this._buckets[hash].find(node => node.key === key);
+    let node = this._buckets[hash].find(key);
 
     if(node) {
       this._buckets[hash] = this._buckets[hash].remove(node);
@@ -84,9 +83,22 @@ class HashTable {
 }
 
 let hashTable = new HashTable();
-hashTable.set('narrator', 12);
-// hashTable.set('harold', 4);
-// hashTable.set('narrator', 12);
+hashTable.set('foo', 5);
+hashTable.set('bar', 2);
+hashTable.set('baz', 1);
+hashTable.set('baphomet', 22);
+hashTable.set('bolt', 3);
+hashTable.set('bath', 7);
+hashTable.set('barth', 8);
+hashTable.set('finch', 11);
+hashTable.set('grinch', 10);
+hashTable.set('mensch', 9);
+hashTable.set('narrator', 16);
+hashTable.set('xylophone', 12);
+hashTable.set('car', 13);
+hashTable.set('crash', 17);
+hashTable.set('harold', 4);
+
 
 console.log(JSON.stringify(hashTable, null, 2));
 
