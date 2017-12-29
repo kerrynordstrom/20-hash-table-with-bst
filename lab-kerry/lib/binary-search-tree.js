@@ -132,7 +132,7 @@ class BinarySearchTree {
 
     } else {
       if (!node.left && !node.right) {
-        this.root = null;
+        this.root = this.root.left;
         return node;
       }
 

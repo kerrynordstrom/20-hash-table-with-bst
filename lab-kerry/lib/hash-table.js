@@ -8,8 +8,7 @@ class HashTable {
     this._capacity = capacity;
     this._buckets = new Array(capacity);
   }
-  // this function will be very prone to collisions
-  // // don't use in a production envionment
+
   _makeHash(key) {
     if (typeof key !== 'string')
       throw new TypeError('__ERROR__ key should be a string');
@@ -24,32 +23,39 @@ class HashTable {
   }
 
   set(key, htValue) {
+    if (key === null || htValue === null) {
+      throw new TypeError('Must include key and value to add to hash table');
+    }
+
     let hash = this._makeHash(key);
   
-		
-    //here, the bucket is empty
     if (!this._buckets[hash]) {
       this._buckets[hash] = new BinarySearchTree();
       this._buckets[hash].insert(key, htValue);
       return this;
     }
-    //this bucket is not empty
+
     let node = this._buckets[hash].find(key);
 
     if (node) {
-      node.value = htValue; //updating this value
+      node.value = htValue; 
       return this;
     }
 
-    //if we are not updating a key, we created a new element in the linked list
     this._buckets[hash].insert(key, htValue);
 
     return this;
   }
 
-
-
   get(key) {
+    if (key === null) {
+      throw new TypeError('Must include key to query hash table');
+    }
+
+    if (typeof key !== 'string') {
+      throw new TypeError('Key must be string');
+    }
+
     let hash = this._makeHash(key);
 
     if (!this._buckets[hash]) {
@@ -66,46 +72,26 @@ class HashTable {
   }
 	
   delete(key) {
+    if (key === null) {
+      throw new TypeError('Must include key to query hash table');
+    }
+
+    if (typeof key !== 'string') {
+      throw new TypeError('Key must be string');
+    }
+
     let hash = this._makeHash(key);
 
     if(!this._buckets[hash])
       return false;
 		
     let node = this._buckets[hash].find(key);
-    // console.log(node);
+
 
     if(node) {
       this._buckets[hash].remove(key);
     }
   }
 }
-
-let hashTable = new HashTable();
-hashTable.set('foo', 5);
-hashTable.set('bar', 2);
-hashTable.set('baz', 1);
-hashTable.set('baphomet', 22);
-hashTable.set('bolt', 3);
-hashTable.set('bath', 7);
-hashTable.set('barth', 8);
-hashTable.set('finch', 11);
-hashTable.set('grinch', 10);
-hashTable.set('mensch', 9);
-hashTable.set('narrator', 16);
-hashTable.set('xylophone', 12);
-hashTable.set('car', 13);
-hashTable.set('crash', 17);
-hashTable.set('harold', 4);
-
-
-// console.log(JSON.stringify(hashTable, null, 2));
-
-// console.log(hashTable.get('bath'));
-
-hashTable.delete('xylophone');
-
-
-console.log(JSON.stringify(hashTable, null, 2));
-
 
 module.exports = HashTable;
