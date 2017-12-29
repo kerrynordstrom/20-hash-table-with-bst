@@ -33,7 +33,6 @@ class HashTable {
       this._buckets[hash].insert(key, htValue);
       return this;
     }
-    console.log(hash);
     //this bucket is not empty
     let node = this._buckets[hash].find(key);
 
@@ -73,12 +72,11 @@ class HashTable {
       return false;
 		
     let node = this._buckets[hash].find(key);
+    // console.log(node);
 
     if(node) {
-      this._buckets[hash] = this._buckets[hash].remove(node);
-      return true;
+      this._buckets[hash].remove(key);
     }
-    return false;
   }
 }
 
@@ -100,6 +98,14 @@ hashTable.set('crash', 17);
 hashTable.set('harold', 4);
 
 
+// console.log(JSON.stringify(hashTable, null, 2));
+
+// console.log(hashTable.get('bath'));
+
+hashTable.delete('xylophone');
+
+
 console.log(JSON.stringify(hashTable, null, 2));
+
 
 module.exports = HashTable;

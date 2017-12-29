@@ -53,11 +53,22 @@ class BinarySearchTree {
       }
     }
   }
-	
+  //Find method that returns helper function given a key and establishes a root at that key for which to execute its functionality.
   find(key) {
-		return this._find(this.root, key);
+    return this._find(this.root, key);
   }
 
+  
+  //Remove method that returns helper function given a key and establishes a root at that key for which to execute its functionality.
+  remove(key) {
+    return this._removeNode(this.root, key);
+  }
+
+  //----------------------------
+  //Helper functions
+  //----------------------------
+
+  // Heavy lifting of find method which is defined above
   _find(node, key) {
 
     if (key === '')
@@ -66,7 +77,7 @@ class BinarySearchTree {
     if (typeof key !== 'string')
       throw new TypeError('Value must be a string');
 
-    if(!node) {
+    if (!node) {
       return null;
     }
     if (key === node.key) {
@@ -78,16 +89,6 @@ class BinarySearchTree {
       return this._find(node.right, key);
     }
   }
-
-
-  //Remove method that calls helper function given a value and establishes a root at that value for which to execute its functionality.
-  remove(key) {
-    return this._removeNode(this.root, key);
-  }
-
-  //----------------------------
-  //Helper functions
-  //----------------------------
 
   //Finds smallest key on right side of BST.
   _findMinNodeKey(node) {
@@ -114,38 +115,48 @@ class BinarySearchTree {
 
   //Heavy lifting of comparing input value with node values on tree to determine where it lives on the tree and where the value needs to be reassigned in order to safely delete just one node.
   _removeNode(node, key) {
+    if (!key || !node)
+      throw new TypeError('Must input valid strings');
+
     if (!node) {
       return null;
     }
-    if (key === node.key) {
+
+    if (key < node.key) {
+      node.left = this._removeNode(node.left, key);
+      return node;
+
+    } else if (key > node.key) {
+      node.right = this._removeNode(node.right, key);
+      return node;
+
+    } else {
       if (!node.left && !node.right) {
-        return null;
+        this.root = null;
+        return node;
       }
-      if (!node.left) {
-        return node.right;
+
+      if (!node.left) { 
+        node = node.right;
+        return node;
       }
       if (!node.right) {
-        return node.left;
+        node = node.left;
+        return node;
       }
       //Assign temporary node value when there are 2 children.
       let tempKey = this._findMinNodeKey(node.right);
       let tempValue = this._findMinNodeValue(node.right);
-      node.key = tempKey;
-      node.value = tempValue;
+      node.key = tempKey.key;
+      node.value = tempValue.value;
 
       node.right = this._removeNode(node.right, tempKey, tempValue);
       return node;
 
-    } else if (key < node.key) {
-      node.left = this._removeNode(node.left, key);
-      return node;
-
-    } else {
-      node.right = this._removeNode(node.right, key);
-      return node;
     }
-  }
+  } 
 }
+
 
 module.exports = TreeNode;
 module.exports = BinarySearchTree;
